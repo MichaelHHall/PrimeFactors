@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:text="Choose all Prime Factors of"
         android:textColor="#000000"
-        android:textSize="50sp"
+        android:textSize="50dp"
         android:gravity="center"/>
 
     <TextView
@@ -20,11 +20,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="100"
-        android:textSize="100sp"
+        android:textSize="100dp"
         android:textColor="#000000"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/topShit"
-        android:layout_margin="30dp"/>
+        android:layout_margin="20dp"/>
 
     <TextView
         android:id="@+id/subtitle"
@@ -34,7 +34,7 @@
         android:layout_below="@id/currentNum"
         android:layout_centerHorizontal="true"
         android:textColor="#000000"
-        android:textSize="30sp"/>
+        android:textSize="30dp"/>
 
     <TextView
         android:id="@+id/CurrentFactors"
@@ -44,8 +44,8 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@id/subtitle"
         android:text="2,2,5,5"
-        android:layout_margin="20dp"
-        android:textSize="35sp"/>
+        android:layout_margin="15dp"
+        android:textSize="35dp"/>
 
     <TextView
         android:id="@+id/subsub"
@@ -53,39 +53,43 @@
         android:layout_height="wrap_content"
         android:text="Choose a Prime Factor"
         android:textColor="#000000"
-        android:textSize="30sp"
+        android:textSize="30dp"
         android:layout_below="@id/CurrentFactors"
         android:layout_centerHorizontal="true"/>
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/subsub">
         <Button
             android:id="@+id/Prime1"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:text="2"/>
+            android:text="2"
+            android:onClick="prime1Pressed"/>
         <Button
             android:id="@+id/Prime2"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_toRightOf="@id/Prime1"
-            android:text="3"/>
+            android:text="3"
+            android:onClick="prime2Pressed"/>
         <Button
             android:id="@+id/Prime3"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_toRightOf="@id/Prime2"
-            android:text="5"/>
+            android:text="5"
+            android:onClick="prime3Pressed"/>
         <Button
             android:id="@+id/Prime4"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_toRightOf="@id/Prime3"
-            android:text="7"/>
+            android:text="7"
+            android:onClick="prime4Pressed"/>
         <Button
             android:id="@+id/minus"
             android:layout_width="48dp"
@@ -100,14 +104,15 @@
             android:layout_toRightOf="@id/minus"
             android:layout_below="@id/Prime2"
             android:text="11"
-            />
+            android:onClick="prime5Pressed"/>
         <Button
             android:id="@+id/Prime6"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_toRightOf="@id/Prime5"
             android:layout_below="@id/Prime3"
-            android:text="13"/>
+            android:text="13"
+            android:onClick="prime6Pressed"/>
         <Button
             android:id="@+id/plus"
             android:layout_width="48dp"
