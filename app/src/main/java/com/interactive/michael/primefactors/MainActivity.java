@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.os.Vibrator;
 
@@ -59,14 +60,14 @@ public class MainActivity extends ActionBarActivity {
     }
     public void init(int diff) {
         maxNum = diff;
-        int p = 0;
-        for(int x = 0; x<9;x++)
-        {
-            for(int y = 0; y<6;y++)
-            {
-                primeSets[x][y] = primes[p++];
-            }
-        }
+        //int p = 0;
+        //for(int x = 0; x<9;x++)
+        //{
+        //    for(int y = 0; y<6;y++)
+        //    {
+        //        primeSets[x][y] = primes[p++];
+        //    }
+        //}
         v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         p1 = (Button)findViewById(R.id.Prime1);
         p2 = (Button)findViewById(R.id.Prime2);
@@ -80,7 +81,6 @@ public class MainActivity extends ActionBarActivity {
     }
     public void resetGame() {
         currentSet = 0;
-        setButtons();
         do
         {
             currentNum = (int) (((maxNum-100) * Math.random()) + 100);
@@ -89,6 +89,7 @@ public class MainActivity extends ActionBarActivity {
         cNum.setText(String.valueOf(currentNum));
         currentPrimes = new ArrayList<Integer>();
         primeSets = generatePrimeList();
+        setButtons();
         setPrimeList();
     }
     public int[] generatePrimes(int m) {
@@ -283,6 +284,12 @@ public class MainActivity extends ActionBarActivity {
             }
         }
         return false;
+    }
+
+    public void startPressed(View view) {
+        EditText edit = (EditText)findViewById(R.id.maxSelect);
+        int d = Integer.valueOf(edit.getText().toString());
+        startGame(d);
     }
 
 }
