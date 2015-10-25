@@ -15,19 +15,19 @@ import java.util.ArrayList;
 
 public class MainActivity extends ActionBarActivity {
 
-    int[][] primeSets = new int[9][6];
-    int[] primes = {2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97,101,103,107,109,113,127,131,137,139,149,151,157,163,167,173,179,181,191,193,197,199,211,223,227,229,233,239,241,251};
+    int[][] primeSets;
+    int[] primes;
     int currentSet = 0;
     int currentNum = 0;
     Button p1,p2,p3,p4,p5,p6;
     TextView cNum,pList;
     ArrayList<Integer> currentPrimes = new ArrayList<Integer>();
     Vibrator v;
+    int maxNum;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        init();
     }
 
     @Override
@@ -51,7 +51,14 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-    public void init() {
+
+    //Game Creation
+    public void startGame(int kill){
+        setContentView(R.layout.game_layout);
+        init(kill);
+    }
+    public void init(int diff) {
+        maxNum = diff;
         int p = 0;
         for(int x = 0; x<9;x++)
         {
@@ -71,39 +78,59 @@ public class MainActivity extends ActionBarActivity {
         pList = (TextView)findViewById(R.id.CurrentFactors);
         resetGame();
     }
-    public void minusClicked(View view)
-    {
-        if(currentSet>0)
-        {
-            currentSet--;
-            setButtons();
-        }
-    }
-    public void plusClicked(View view)
-    {
-        if(currentSet<8)
-        {
-            currentSet++;
-            setButtons();
-        }
-    }
-    public void setButtons()
-    {
-        p1.setText(String.valueOf(primeSets[currentSet][0]));
-        p2.setText(String.valueOf(primeSets[currentSet][1]));
-        p3.setText(String.valueOf(primeSets[currentSet][2]));
-        p4.setText(String.valueOf(primeSets[currentSet][3]));
-        p5.setText(String.valueOf(primeSets[currentSet][4]));
-        p6.setText(String.valueOf(primeSets[currentSet][5]));
-    }
     public void resetGame() {
         currentSet = 0;
         setButtons();
-        currentNum = (int) ((400 * Math.random()) + 100);
+        do
+        {
+            currentNum = (int) (((maxNum-100) * Math.random()) + 100);
+        }while(!isPrime(currentNum));
+        primes = generatePrimes(maxNum);
         cNum.setText(String.valueOf(currentNum));
         currentPrimes = new ArrayList<Integer>();
+        primeSets = generatePrimeList();
         setPrimeList();
     }
+    public int[] generatePrimes(int m) {
+        ArrayList<Integer> pp = new ArrayList<Integer>();
+        for(int g = 0; g<m/2;g++)
+        {
+            if(isPrime(g))
+            {
+                pp.add(g);
+            }
+        }
+        while(pp.size()%6!=0)
+        {
+            int d =pp.get(pp.size()-1)+1;
+            if(isPrime(d))
+            {
+                pp.add(d);
+            }
+            d++;
+        }
+        int[] p = new int[pp.size()];
+        for(int x = 0; x<pp.size();x++)
+        {
+            p[x]=pp.get(x);
+        }
+        return p;
+    }
+    public int[][] generatePrimeList() {
+        int[][] l = new int[primes.length/6][6];
+        int f=0;
+        for(int x=0;x<primes.length/6;x++)
+        {
+            for(int y=0;y<6;y++)
+            {
+                l[x][y] = primes[f];
+                f++;
+            }
+        }
+        return new int[1][1];
+    }
+
+    //Button Pressing
     public void prime1Pressed(View view){
         if(currentNum%primeSets[currentSet][0]==0)
         {
@@ -206,6 +233,30 @@ public class MainActivity extends ActionBarActivity {
             v.vibrate(500);
         }
     }
+    public void minusClicked(View view) {
+        if(currentSet>0)
+        {
+            currentSet--;
+            setButtons();
+        }
+    }
+    public void plusClicked(View view) {
+        if(currentSet<8)
+        {
+            currentSet++;
+            setButtons();
+        }
+    }
+
+    //Game Control
+    public void setButtons() {
+        p1.setText(String.valueOf(primeSets[currentSet][0]));
+        p2.setText(String.valueOf(primeSets[currentSet][1]));
+        p3.setText(String.valueOf(primeSets[currentSet][2]));
+        p4.setText(String.valueOf(primeSets[currentSet][3]));
+        p5.setText(String.valueOf(primeSets[currentSet][4]));
+        p6.setText(String.valueOf(primeSets[currentSet][5]));
+    }
     public void setPrimeList(){
         String outp = "";
         for(int x = 0; x<currentPrimes.size();x++)
@@ -224,13 +275,14 @@ public class MainActivity extends ActionBarActivity {
         }
     }
     public boolean isPrime(int c){
-        for(int x = 0;x<primes.length;x++)
+        for(int x = 2;x<c;x++)
         {
-            if(c==primes[x])
+            if(c%x==0)
             {
                 return true;
             }
         }
         return false;
     }
+
 }
