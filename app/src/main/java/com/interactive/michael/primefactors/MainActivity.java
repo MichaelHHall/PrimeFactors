@@ -25,6 +25,7 @@ public class MainActivity extends ActionBarActivity {
     ArrayList<Integer> currentPrimes = new ArrayList<Integer>();
     Vibrator v;
     int maxNum;
+    int numSets=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +92,7 @@ public class MainActivity extends ActionBarActivity {
         primeSets = generatePrimeList();
         setButtons();
         setPrimeList();
+        numSets = primes.length/6;
     }
     public int[] generatePrimes(int m) {
         ArrayList<Integer> pp = new ArrayList<Integer>();
@@ -242,7 +244,7 @@ public class MainActivity extends ActionBarActivity {
         }
     }
     public void plusClicked(View view) {
-        if(currentSet<8)
+        if(currentSet<numSets)
         {
             currentSet++;
             setButtons();
