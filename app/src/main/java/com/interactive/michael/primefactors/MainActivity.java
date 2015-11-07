@@ -84,7 +84,7 @@ public class MainActivity extends ActionBarActivity {
         do
         {
             currentNum = (int) (((maxNum-100) * Math.random()) + 100);
-        }while(!isPrime(currentNum));
+        }while(isPrime(currentNum));
         primes = generatePrimes(maxNum);
         cNum.setText(String.valueOf(currentNum));
         currentPrimes = new ArrayList<Integer>();
@@ -94,16 +94,16 @@ public class MainActivity extends ActionBarActivity {
     }
     public int[] generatePrimes(int m) {
         ArrayList<Integer> pp = new ArrayList<Integer>();
-        for(int g = 0; g<m/2;g++)
+        for(int g = 2; g<Math.ceil(m/2);g++)
         {
             if(isPrime(g))
             {
                 pp.add(g);
             }
         }
+        int d =pp.get(pp.size()-1)+1;
         while(pp.size()%6!=0)
         {
-            int d =pp.get(pp.size()-1)+1;
             if(isPrime(d))
             {
                 pp.add(d);
@@ -128,7 +128,7 @@ public class MainActivity extends ActionBarActivity {
                 f++;
             }
         }
-        return new int[1][1];
+        return l;
     }
 
     //Button Pressing
@@ -280,10 +280,10 @@ public class MainActivity extends ActionBarActivity {
         {
             if(c%x==0)
             {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     public void startPressed(View view) {
