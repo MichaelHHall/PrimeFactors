@@ -20,12 +20,14 @@ public class MainActivity extends ActionBarActivity {
     int[] primes;
     int currentSet = 0;
     int currentNum = 0;
+    int startNum = 0;
     Button p1,p2,p3,p4,p5,p6;
-    TextView cNum,pList;
+    TextView cNum,pList,tShit,subTit,subSub;
     ArrayList<Integer> currentPrimes = new ArrayList<Integer>();
     Vibrator v;
     int maxNum;
     int numSets=0;
+    boolean dead = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +80,9 @@ public class MainActivity extends ActionBarActivity {
         p6 = (Button)findViewById(R.id.Prime6);
         cNum = (TextView)findViewById(R.id.currentNum);
         pList = (TextView)findViewById(R.id.CurrentFactors);
+        tShit = (TextView)findViewById(R.id.topShit);
+        subTit = (TextView)findViewById(R.id.subtitle);
+        subSub = (TextView)findViewById(R.id.subsub);
         resetGame();
     }
     public void resetGame() {
@@ -86,6 +91,7 @@ public class MainActivity extends ActionBarActivity {
         {
             currentNum = (int) (((maxNum-100) * Math.random()) + 100);
         }while(isPrime(currentNum));
+        startNum=currentNum;
         primes = generatePrimes(maxNum);
         cNum.setText(String.valueOf(currentNum));
         currentPrimes = new ArrayList<Integer>();
@@ -93,6 +99,9 @@ public class MainActivity extends ActionBarActivity {
         setButtons();
         setPrimeList();
         numSets = primes.length/6;
+        tShit.setText("Choose all Prime Factors of");
+        subTit.setText("Current Prime Factors");
+        subSub.setText("Choose a Prime Factor");
     }
     public int[] generatePrimes(int m) {
         ArrayList<Integer> pp = new ArrayList<Integer>();
@@ -135,7 +144,12 @@ public class MainActivity extends ActionBarActivity {
 
     //Button Pressing
     public void prime1Pressed(View view){
-        if(currentNum%primeSets[currentSet][0]==0)
+        if(dead)
+        {
+            dead = false;
+            resetGame();
+        }
+        else if(currentNum%primeSets[currentSet][0]==0)
         {
             currentNum = currentNum/primeSets[currentSet][0];
             cNum.setText(String.valueOf(currentNum));
@@ -145,14 +159,16 @@ public class MainActivity extends ActionBarActivity {
         }
         else
         {
-            resetGame();
-            pList.setText("YOU LOSE");
-            //want to vibrate here
-            v.vibrate(500);
+            youLose(primeSets[currentSet][0]);
         }
     }
     public void prime2Pressed(View view){
-        if(currentNum%primeSets[currentSet][1]==0)
+        if(dead)
+        {
+            dead = false;
+            resetGame();
+        }
+        else if(currentNum%primeSets[currentSet][1]==0)
         {
             currentNum = currentNum/primeSets[currentSet][1];
             cNum.setText(String.valueOf(currentNum));
@@ -162,14 +178,16 @@ public class MainActivity extends ActionBarActivity {
         }
         else
         {
-            resetGame();
-            pList.setText("YOU LOSE");
-            //want to vibrate here
-            v.vibrate(500);
+            youLose(primeSets[currentSet][1]);
         }
     }
     public void prime3Pressed(View view){
-        if(currentNum%primeSets[currentSet][2]==0)
+        if(dead)
+        {
+            dead = false;
+            resetGame();
+        }
+        else if(currentNum%primeSets[currentSet][2]==0)
         {
             currentNum = currentNum/primeSets[currentSet][2];
             cNum.setText(String.valueOf(currentNum));
@@ -179,14 +197,16 @@ public class MainActivity extends ActionBarActivity {
         }
         else
         {
-            resetGame();
-            pList.setText("YOU LOSE");
-            //want to vibrate here
-            v.vibrate(500);
+            youLose(primeSets[currentSet][2]);
         }
     }
     public void prime4Pressed(View view){
-        if(currentNum%primeSets[currentSet][3]==0)
+        if(dead)
+        {
+            dead = false;
+            resetGame();
+        }
+        else if(currentNum%primeSets[currentSet][3]==0)
         {
             currentNum = currentNum/primeSets[currentSet][3];
             cNum.setText(String.valueOf(currentNum));
@@ -196,14 +216,16 @@ public class MainActivity extends ActionBarActivity {
         }
         else
         {
-            resetGame();
-            pList.setText("YOU LOSE");
-            //want to vibrate here
-            v.vibrate(500);
+            youLose(primeSets[currentSet][3]);
         }
     }
     public void prime5Pressed(View view){
-        if(currentNum%primeSets[currentSet][4]==0)
+        if(dead)
+        {
+            dead = false;
+            resetGame();
+        }
+        else if(currentNum%primeSets[currentSet][4]==0)
         {
             currentNum = currentNum/primeSets[currentSet][4];
             cNum.setText(String.valueOf(currentNum));
@@ -213,14 +235,16 @@ public class MainActivity extends ActionBarActivity {
         }
         else
         {
-            resetGame();
-            pList.setText("YOU LOSE");
-            //want to vibrate here
-            v.vibrate(500);
+            youLose(primeSets[currentSet][4]);
         }
     }
     public void prime6Pressed(View view){
-        if(currentNum%primeSets[currentSet][5]==0)
+        if(dead)
+        {
+            dead = false;
+            resetGame();
+        }
+        else if(currentNum%primeSets[currentSet][5]==0)
         {
             currentNum = currentNum/primeSets[currentSet][5];
             cNum.setText(String.valueOf(currentNum));
@@ -230,21 +254,28 @@ public class MainActivity extends ActionBarActivity {
         }
         else
         {
-            resetGame();
-            pList.setText("YOU LOSE");
-            //want to vibrate here
-            v.vibrate(500);
+            youLose(primeSets[currentSet][5]);
         }
     }
     public void minusClicked(View view) {
-        if(currentSet>0)
+        if(dead)
+        {
+            dead = false;
+            resetGame();
+        }
+        else if(currentSet>0)
         {
             currentSet--;
             setButtons();
         }
     }
     public void plusClicked(View view) {
-        if(currentSet<numSets)
+        if(dead)
+        {
+            dead = false;
+            resetGame();
+        }
+        else if(currentSet<numSets)
         {
             currentSet++;
             setButtons();
@@ -274,7 +305,13 @@ public class MainActivity extends ActionBarActivity {
         {
             //you win
             resetGame();
-            pList.setText("YOU WIN");
+            String pout = "YOU WIN! Primes:\n";
+            for(int x = 0; x<currentPrimes.size();x++)
+            {
+                pout = pout+currentPrimes.get(x)+",";
+            }
+            pout = pout + "\b";
+            pList.setText(pout);
         }
     }
     public boolean isPrime(int c){
@@ -286,6 +323,14 @@ public class MainActivity extends ActionBarActivity {
             }
         }
         return true;
+    }
+    public void youLose(int wrong){
+        v.vibrate(500);
+        dead = true;
+        tShit.setText("You lose! Starting number:");
+        cNum.setText(String.valueOf(startNum));
+        subTit.setText("primes you got so far:");
+        subSub.setText("You got out by guessing: "+wrong+"\nClick any button to restart");
     }
 
     public void startPressed(View view) {
